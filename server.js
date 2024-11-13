@@ -31,16 +31,29 @@ app.listen(process.env.PORT || PORT, () => {
 app.get('/', (request, response) => {
     db.collection('rappers').find().toArray()
         .then(data => {
-            console.log(data[0].likes)
-            data.sort((a,b) => b.likes - a.likes)
+            console.log(data, 'before filter + sort')
+            // matchPinned = {pinned: 'true'}
+            // isPinned(data, matchPinned)
+            let pinned = data.filter((a)=> a.pinned==='true')
+            pinned.sort((a,b) => b.likes - a.likes)
+            let notPinned = data.filter((a)=> a.pinned!='true')
+            notPinned.sort((a,b) => b.likes - a.likes)
+            console.log(pinned, 'PINNED', notPinned, 'NOT PINNED');
+            data = pinned.concat(notPinned)
+            // console.log(data, 'after filter + sort')
             response.render('index.ejs', { info: data })
         })
         .catch(error => console.error(error))
 })
 
+function isPinned(data, match) {
+    return collection.filter(obj => Object.keys(source).every(key => obj[key] === source[key]));
+  }
+
 app.post('/addRapper', (request, response) => {
-    db.collection('rappers').insertOne({stageName: request.body.stageName, birthName: request.body.birthName, likes:0})
+    db.collection('rappers').insertOne({stageName: request.body.stageName, birthName: request.body.birthName, likes:0, pinned: 'false'})
         .then(result => {
+            // console.log(request.body)
             console.log('Rapper Added')
             response.redirect('/')
         })
@@ -86,6 +99,52 @@ app.put('/deleteOneLike', (request, response) => {
         })
         .catch(error => console.error(error))
 })
+
+app.put('/pinRapper', (request, response) => {
+    db.collection('rappers').updateOne({
+        stageName: request.body.stageName,
+        birthName: request.body.birthName,
+        likes: request.body.likes,
+    }, {
+        $set: {
+            pinned: request.body.pinned
+        }
+    }, {
+        sort: { _id: -1 },
+        upsert: true
+    })
+        .then(result => {
+            console.log(request.body)
+            console.log('Pinned')
+            response.json('Pinned')
+            response.redirect('/')
+        })
+        .catch(error => console.error(error))
+})
+
+
+// app.put('/pinRapper', (request, response) => {
+//     // console.log(request.body)
+//     db.collection('rappers').updateOne({
+//         stageName: request.body.stageName,
+//         birthName: request.body.birthName,
+//         likes: request.body.likes,
+//         pinned: request.body.pinned
+//     }, {
+//         $set: {
+//             pinned: request.body.pinned
+//         }
+//     }, {
+//         sort: { _id: -1 },
+//         upsert: true
+//     })
+//         .then(result => {
+//             console.log('Pinned to top')
+//             response.json('Pinned to top')
+//         })
+//         .catch(error => console.error(error))
+// })
+
 
 app.delete('/deleteRapper', (request, response) => {
     db.collection('rappers').deleteOne({
