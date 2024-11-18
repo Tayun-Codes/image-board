@@ -22,9 +22,35 @@
 /*******************************************/
 
 body {
-
+  background-color: rgb(35, 56, 78);
+  color: white;
 }
 
+.post {
+  margin: 20px;
+  height: 250px;
+  width: 200px;
+  border: 1px solid grey;
+  border-radius: 15px;
+  display: inline-block;
+}
+.title {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+img {
+  margin: 0 10px;
+  height: 180px;
+  width: 180px;
+  object-fit: contain;
+}
+
+.options {
+  display: block;
+  text-align: center;
+}
 
 /******************************************
 /* LAYOUT
