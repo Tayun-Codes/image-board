@@ -1,5 +1,5 @@
 let heart = document.getElementsByClassName('fa-heart');
-let del = document.getElementsByClassName('del');
+let del = document.getElementsByClassName('fa-trash');
 
 // const ul = document.querySelector('ul');
 
@@ -26,9 +26,9 @@ Array.from(heart).forEach(function (element) {
 
 Array.from(del).forEach(function (element) {
   element.addEventListener('click', function () {
-    const title = this.parentNode.childNodes[1].innerText
-    const src = this.parentNode.childNodes[3].innerText
-    fetch('deleteRapper', {
+    const title = this.parentNode.parentNode.parentNode.childNodes[1].innerText
+    const src = this.parentNode.parentNode.parentNode.childNodes[3].src.slice(0,40)
+    fetch('deleteImage', {
       method: 'delete',
       headers: {
         'Content-Type': 'application/json'

@@ -37,7 +37,7 @@ app.get('/', (request, response) => {
 })
 
 app.post('/addImage', upload.single('uploaded_file'), (req, response) => {
-    console.log(req.file, 'file', req.body, 'body')
+    // console.log(req.file, 'file', req.body, 'body')
     db.collection('images').insertOne({ src: req.file.buffer, title: req.body.title, description: req.body.description, likes: 0 })
         .then(result => {
             console.log('Image Added')
@@ -48,7 +48,7 @@ app.post('/addImage', upload.single('uploaded_file'), (req, response) => {
 
 app.put('/addOneLike', (request, response) => {
     db.collection('images').updateOne({
-        title: request.body.title, //
+        title: request.body.title,
         id: request.body.id,
         likes: request.body.likes
     }, {
@@ -66,28 +66,10 @@ app.put('/addOneLike', (request, response) => {
         .catch(error => console.error(error))
 })
 
-app.put('/deleteOneLike', (request, response) => {
-    db.collection('images').updateOne({
-        title: request.body.title,
-        likes: request.body.likes
-    }, {
-        $set: {
-            likes: request.body.likes - 1
-        }
-    }, {
-        sort: { _id: -1 },
-        upsert: true
-    })
-        .then(result => {
-            console.log('Removed One Like')
-            response.json('Like Removed')
-        })
-        .catch(error => console.error(error))
-})
-
 app.delete('/deleteImage', (request, response) => {
     db.collection('images').deleteOne({
-        title: request.body.title
+        title: request.body.title,
+        id: request.body.id,
     })
         .then(result => {
             console.log('Image Deleted')
