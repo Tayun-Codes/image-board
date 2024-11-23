@@ -37,7 +37,7 @@ app.get('/', (request, response) => {
 })
 
 app.post('/addImage', upload.single('uploaded_file'), (req, response) => {
-    console.log(req.file, 'file', req.body, 'body')
+    // console.log(req.file, 'file', req.body, 'body')
     db.collection('images').insertOne({ src: req.file.buffer, title: req.body.title, description: req.body.description, likes: 0 })
         .then(result => {
             console.log('Image Added')
