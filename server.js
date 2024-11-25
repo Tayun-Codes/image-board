@@ -29,6 +29,7 @@ app.listen(process.env.PORT || PORT, () => {
 app.get('/', (request, response) => {
     db.collection('images').find().toArray()
         .then(data => {
+            console.log(data)
             response.render('index.ejs', { info: data })
         })
         .catch(error => console.error(error))
@@ -44,6 +45,7 @@ app.post('/addImage', upload.single('uploaded_file'), (req, response) => {
 })
 
 app.put('/addOneLike', (request, response) => {
+    console.log('REQBODY', request.body)
     db.collection('images').updateOne({
         title: request.body.title,
         likes: request.body.likes
