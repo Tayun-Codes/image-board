@@ -1,10 +1,8 @@
 const express = require('express')
 const app = express()
 require('dotenv').config();
-// const ejs = require('ejs')
 const MongoClient = require('mongodb').MongoClient
 const multer = require('multer')
-// const ImageModel = require('./image.model')
 const upload = multer({ /*dest: './public/data/uploads/'*/ })
 
 let db,
@@ -31,6 +29,7 @@ app.listen(process.env.PORT || PORT, () => {
 app.get('/', (request, response) => {
     db.collection('images').find().toArray()
         .then(data => {
+            console.log(data)
             response.render('index.ejs', { info: data })
         })
         .catch(error => console.error(error))
@@ -47,9 +46,10 @@ app.post('/addImage', upload.single('uploaded_file'), (req, response) => {
 })
 
 app.put('/addOneLike', (request, response) => {
+    console.log('REQBODY', request.body)
     db.collection('images').updateOne({
         title: request.body.title,
-        id: request.body.id,
+        // id: request.body.id,
         likes: request.body.likes
     }, {
         $set: {
@@ -69,7 +69,7 @@ app.put('/addOneLike', (request, response) => {
 app.delete('/deleteImage', (request, response) => {
     db.collection('images').deleteOne({
         title: request.body.title,
-        id: request.body.id,
+        // id: request.body.id,
     })
         .then(result => {
             console.log('Image Deleted')
