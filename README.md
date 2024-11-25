@@ -1,6 +1,9 @@
 # Catgram Full-Stack App
 This is a full-stack application that allows users to publish their cat photos to a communal page.
 Upload the photo, title it, give it a description and hit that "Post your cat" button! Voila! The cats are now on screen. 
+Wait... That's not a cat, this isn't your swamp!
+
+https://github.com/user-attachments/assets/20e59588-fbc8-4e11-b5b7-2bf88f29ffba
 
 ## How It's Made:
 Catgram is built using the following technologies:
