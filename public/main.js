@@ -6,8 +6,9 @@ let del = document.getElementsByClassName('fa-trash');
 Array.from(heart).forEach(function (element) {
   element.addEventListener('click', function () {
     const title = this.parentNode.parentNode.parentNode.childNodes[1].innerText
-    const src = this.parentNode.parentNode.parentNode.childNodes[3].src.slice(0,40)
-    const likes = parseFloat(this.parentNode.parentNode.childNodes[1].innerText)
+    const src = this.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].src.slice(0,40)
+    const likes = parseFloat(this.parentNode.parentNode.parentNode.childNodes[3].childNodes[3].innerText)
+    console.log(likes)
     fetch('addOneLike', {
       method: 'put',
       headers: {
@@ -27,7 +28,7 @@ Array.from(heart).forEach(function (element) {
 Array.from(del).forEach(function (element) {
   element.addEventListener('click', function () {
     const title = this.parentNode.parentNode.parentNode.childNodes[1].innerText
-    const src = this.parentNode.parentNode.parentNode.childNodes[3].src.slice(0,40)
+    const src = this.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].src.slice(0,40)
     fetch('deleteImage', {
       method: 'delete',
       headers: {
