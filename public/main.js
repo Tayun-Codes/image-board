@@ -5,7 +5,6 @@ let del = document.getElementsByClassName('fa-trash');
 
 Array.from(heart).forEach(function (element) {
   element.addEventListener('click', function () {
-    console.log(this.parentNode.parentNode.parentNode.childNodes[3].childNodes[3])
     const title = this.parentNode.parentNode.parentNode.childNodes[1].innerText
     const src = this.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].src.slice(0,40)
     const likes = parseFloat(this.parentNode.parentNode.parentNode.childNodes[3].childNodes[3].innerText)
@@ -21,7 +20,7 @@ Array.from(heart).forEach(function (element) {
         'likes': likes
       })
     }).then(function (response) {
-      // window.location.reload()
+      window.location.reload()
     })
   });
 });
