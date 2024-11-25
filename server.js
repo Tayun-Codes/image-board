@@ -29,14 +29,12 @@ app.listen(process.env.PORT || PORT, () => {
 app.get('/', (request, response) => {
     db.collection('images').find().toArray()
         .then(data => {
-            console.log(data)
             response.render('index.ejs', { info: data })
         })
         .catch(error => console.error(error))
 })
 
 app.post('/addImage', upload.single('uploaded_file'), (req, response) => {
-    // console.log(req.file, 'file', req.body, 'body')
     db.collection('images').insertOne({ src: req.file.buffer, title: req.body.title, description: req.body.description, likes: 0 })
         .then(result => {
             console.log('Image Added')
@@ -46,10 +44,8 @@ app.post('/addImage', upload.single('uploaded_file'), (req, response) => {
 })
 
 app.put('/addOneLike', (request, response) => {
-    console.log('REQBODY', request.body)
     db.collection('images').updateOne({
         title: request.body.title,
-        // id: request.body.id,
         likes: request.body.likes
     }, {
         $set: {
@@ -69,7 +65,6 @@ app.put('/addOneLike', (request, response) => {
 app.delete('/deleteImage', (request, response) => {
     db.collection('images').deleteOne({
         title: request.body.title,
-        // id: request.body.id,
     })
         .then(result => {
             console.log('Image Deleted')
